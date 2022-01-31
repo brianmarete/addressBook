@@ -1,81 +1,56 @@
-//business logic
-function Contact(first, last) {
-  this.firstName = first;
-  this.lastName = last;
-  this.addresses = [];
+const Contacts = [];
+
+class Contact {
+  constructor(firstName, lastName, phoneNumber) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+  }
+
+  fullName() {
+    return this.firstName + ' ' + this.lastName;
+  }
 }
 
-function Address(street, city, state) {
-  this.street = street;
-  this.city = city;
-  this.state = state;
-}
-
-Contact.prototype.fullName = function() {
-  return this.firstName + " " + this.lastName;
-}
-
-Address.prototype.fullAddress = function() {
-  return this.street + ", " + this.city + ", " + this.state;
-}
-
-function resetFields() {
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
-}
-
-// user interface logic
+// Execute the following code only when the document is ready
 $(document).ready(function() {
-  
-  $("#add-address").click(function() {
-    $("#new-addresses").append('<div class="new-address">' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-street">Street</label>' +
-                                   '<input type="text" class="form-control new-street">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-city">City</label>' +
-                                   '<input type="text" class="form-control new-city">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-state">State</label>' +
-                                   '<input type="text" class="form-control new-state">' +
-                                 '</div>' +
-                               '</div>');
-  });
+  // when the #new-contact form is submitted do this...
+  $('#new-contact').submit(function(event) {
+    // 1. Grab text from the input
+    const firstName = $('#new-first-name').val();
+    const lastName = $('#new-last-name').val();
+    const phoneNumber = $('#phonenumber').val();
 
-  $("form#new-contact").submit(function(event) {
+    // 2. Create a Contact object and add it to the contacts array
+    const contact = new Contact(firstName, lastName, phoneNumber);
+
+    // 3. We'll store the current length of the contacts array which we'll use to identifiy the current contact
+    const length = Contacts.push(contact);
+
+    // 4. Append the contact to the contacts list
+    $('#contacts').append('<li id=' + length + '>' + contact.fullName() +'</li>');
+
+    // When a list item is clicked, do this...
+    $('li').click(function() {
+
+      // Get the id of the current element that was clicked
+      const id = this.id;
+
+      // Use the id to access the contact object from the contacts array
+      // We subtract 1 from the id to get the correct index (index starts at 0)
+      const contact1 = Contacts[id - 1];
+      
+      //Set the text for displaying the details using the object properties
+      $('.first-name').text(contact1.firstName);
+      $('.last-name').text(contact1.lastName);
+      $('.phone').text(contact1.phoneNumber);
+
+      // Make the contact details visible
+      $('#show-contact').show();
+    });
+
     event.preventDefault();
-
-    var inputtedFirstName = $("input#new-first-name").val();
-    var inputtedLastName = $("input#new-last-name").val();
-    var newContact = new Contact(inputtedFirstName, inputtedLastName);
-
-    $(".new-address").each(function() {
-      var inputtedStreet = $(this).find("input.new-street").val();
-      var inputtedCity = $(this).find("input.new-city").val();
-      var inputtedState = $(this).find("input.new-state").val();
-      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState)
-      newContact.addresses.push(newAddress)
-    });
-
-    $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
-
-    $(".contact").last().click(function() {
-      $("#show-contact").show();
-      $("#show-contact h2").text(newContact.fullName());
-      $(".first-name").text(newContact.firstName);
-      $(".last-name").text(newContact.lastName);
-      $("ul#addresses").text("");
-      newContact.addresses.forEach(function(address) {
-        $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
-      });
-    });
-
-    resetFields();
-
   });
+
+  
 });

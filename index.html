@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
-    <script src="js/jquery-1.12.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/scripts.js"></script>
     <title>Address book</title>
   </head>
@@ -25,24 +26,10 @@
               <input type="text" class="form-control" id="new-last-name">
             </div>
 
-            <div id="new-addresses">
-              <div class="new-address">
-                <div class="form-group">
-                  <label for="new-street">Street</label>
-                  <input type="text" class="form-control new-street">
-                </div>
-                <div class="form-group">
-                  <label for="new-city">City</label>
-                  <input type="text" class="form-control new-city">
-                </div>
-                <div class="form-group">
-                  <label for="new-state">State</label>
-                  <input type="text" class="form-control new-state">
-                </div>
-              </div>
+            <div class="form-group">
+              <label for="phonenumber">Phone</label>
+              <input type="number" class="form-control" id="phonenumber">
             </div>
-
-            <span class="btn btn-primary" id="add-address">Another address</span>
 
             <button type="submit" class="btn">Add</button>
           </form>
@@ -55,13 +42,10 @@
 
         <div class="col-md-6">
           <div id="show-contact">
-            <h2></h2>
+            <h2>Contact details</h2>
             <p>First name: <span class="first-name"></span></p>
             <p>Last name: <span class="last-name"></span></p>
-            <p>Addresses:</p>
-            <ul id="addresses">
-
-            </ul>
+            <p>Phone Number: <span class="phone"></span></p>
           </div>
         </div>
 
